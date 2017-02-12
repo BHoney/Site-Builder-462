@@ -39,7 +39,8 @@ public class PixelScanner : MonoBehaviour
             }
         }
         //Debug.Log(string.Format("Map Data Retrieved. {0} entries", mapData.Length));
-        Debug.Log(string.Format("Map Data: {0}, Color {1}", mapData[1, 1], mapPixelData[10]));
+       // Debug.Log(string.Format("Map Data: {0}, Color {1}", mapData[1, 1], mapPixelData[10]));
+	   
         return mapData;
     }
 }

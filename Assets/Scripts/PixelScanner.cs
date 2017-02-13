@@ -7,10 +7,29 @@ public class PixelScanner : MonoBehaviour
 
     public Texture2D map;
     private Vector2 pos;
+    private int[,] binaryImage;
     // Use this for initialization
     void Start()
     {
-        GetMapData();
+        binaryImage = GetMapData(); //Get the map data and assign it to a variable;
+    }
+
+    /// <summary>
+    /// Callback to draw gizmos that are pickable and always drawn.
+    /// </summary>
+    void OnDrawGizmos()
+    {
+        if(binaryImage != null){
+            for(int y = 0; y < map.height; y++){
+                for(int x = 0; x < map.width; x++){
+                    if(binaryImage[x,y] == 1){
+                        Gizmos.color = Color.black;
+                    Vector3 pos = new Vector3(-map.width/2 + x, -map.height/2 +y, 0);
+                    Gizmos.DrawCube(pos, Vector3.one);
+                    }
+                }
+            }
+        }
     }
 
     /// <summary>

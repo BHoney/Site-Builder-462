@@ -61,7 +61,7 @@ public class PixelScanner : MonoBehaviour
             for(int y = 0; y < map.height; y++){
                 for(int x = 0; x < map.width; x++){
                     if(binaryImage[x,y] == 1){
-                        Gizmos.color = Color.black;
+                        Gizmos.color = Color.black; //If the data returns a 1, draw it
                     Vector3 pos = new Vector3(-map.width/2 + x, -map.height/2 +y, 0);
                     Gizmos.DrawCube(pos, Vector3.one);
                     }

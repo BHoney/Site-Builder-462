@@ -49,7 +49,7 @@ public class imagereader : MonoBehaviour {
 
 //		(new Rect (20, 20, texture.width/2, texture.height/2)
 
-		Rect rect = new Rect(40, 40, Screen.width/2, Screen.height/2);//Rect to put the texture on
+		Rect rect = new Rect(Screen.width/4, 150, Screen.width/2, Screen.height/2);//Rect to put the texture on
 		if (texture != null) {
 			GUI.DrawTexture(rect, texture,ScaleMode.StretchToFill);//draws the texture on the rect
 		}

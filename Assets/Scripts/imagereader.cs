@@ -52,11 +52,17 @@ public class imagereader : MonoBehaviour {
 		Rect rect = new Rect(Screen.width/4, 150, Screen.width/2, Screen.height/2);//Rect to put the texture on
 		if (texture != null) {
 			GUI.DrawTexture(rect, texture,ScaleMode.StretchToFill);//draws the texture on the rect
+
+			GUI.Button(new Rect(800, 660, 130, 30), "Hide Image");
+
+
 		}
 
 
 
 
 	}
+
+
 
 }

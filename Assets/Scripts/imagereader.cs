@@ -10,6 +10,7 @@ public class imagereader : MonoBehaviour {
 
 	private InputField input;
 	public Texture2D texture = null;
+	static bool displayImage = false;
 
 	void Awake()
 	{
@@ -25,6 +26,7 @@ public class imagereader : MonoBehaviour {
 
 		texture = LoadPNG (picture);
 
+
 	}
 
 
@@ -38,6 +40,7 @@ public class imagereader : MonoBehaviour {
 		if (File.Exists(filePath)) //if the file exists..    
 		{
 			Debug.Log ("file exists ");
+//			displayImage = true;
 			fileData = File.ReadAllBytes(filePath);//reads all the byes in the file
 			tex = new Texture2D(2, 2);//creates in temperary texture
 			tex.LoadImage(fileData); //..this will auto-resize the texture dimensions.
@@ -45,24 +48,45 @@ public class imagereader : MonoBehaviour {
 		return tex;
 	}
 
+
+
+
 	void OnGUI() {
 
 //		(new Rect (20, 20, texture.width/2, texture.height/2)
 
 		Rect rect = new Rect(Screen.width/4, 150, Screen.width/2, Screen.height/2);//Rect to put the texture on
 		if (texture != null) {
+			
+
 			GUI.DrawTexture(rect, texture,ScaleMode.StretchToFill);//draws the texture on the rect
 
-			GUI.Button(new Rect(800, 660, 130, 30), "Hide Image");
+//			GUI.Button(new Rect(800, 660, 130, 30), "Hide Image");
+			if (displayImage == false) {
+//				Debug.Log ("Getting rid of this.. " + displayImage);
+			GUI.enabled = false;
+				Debug.Log ("Getting rid of this.. " + displayImage);
+//				GUI.DrawTexture (new Rect(Screen.width, 150, Screen.width, Screen.height), texture);
+			}
 
+			}
 
+		if (displayImage == true) {
+			GUI.enabled = displayImage;
 		}
-
-
-
+	
 
 	}
 
+	public void Enable(){
+		displayImage = true;
+
+	}
+
+
+	public void Disable(){
+		displayImage = false;
+	}
 
 
 }

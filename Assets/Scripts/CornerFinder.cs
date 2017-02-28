@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class CornerFinder : MonoBehaviour {
 	 
-	private int[,] pixelMap;
+	private MapData pixelMap;
 	public PixelScanner scanner;
 	private List<int> xValues = new List<int>();
 	private List<int> yValues = new List<int>();
@@ -63,7 +63,7 @@ public class CornerFinder : MonoBehaviour {
 	//initialization and autorun of findingCorners
 	void Start(){ 
 		pixelMap = scanner.GetMapData ();
-		findingCorners (pixelMap);
+		findingCorners (pixelMap.data);
 	}
 }
 

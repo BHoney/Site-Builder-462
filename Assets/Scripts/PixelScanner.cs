@@ -12,6 +12,7 @@ public class PixelScanner : MonoBehaviour
     void Start()
     {
         binaryImage = GetMapData(); //Get the map data and assign it to a variable;
+        
     }
 
     /// <summary>
@@ -25,7 +26,10 @@ public class PixelScanner : MonoBehaviour
     /// <summary>
     /// Using the texture's pixel data, creates a new binary map using black and white values.
     /// </summary>
-    /// <returns>mapData</returns>
+    /// <returns>mapData</returns> <summary>
+    /// </summary>
+
+    //TODO: Color -> Grayscale -> Binary   
     public MapData GetMapData()
     {
         int[,] mapData = new int[map.width, map.height]; //Create a new array to store all the data
@@ -46,6 +50,7 @@ public class PixelScanner : MonoBehaviour
                 else mapData[x, y] = 1;  //Otherwise, return a 1
                 walker++; //Finally, incriment the walker
             }
+
         }
         //Debug.Log(string.Format("Map Data Retrieved. {0} entries", mapData.Length));
         // Debug.Log(string.Format("Map Data: {0}, Color {1}", mapData[1, 1], mapPixelData[10]));
@@ -54,25 +59,27 @@ public class PixelScanner : MonoBehaviour
         return completeMap;
     }
 
-    /// <summary>
-    /// Draws the data extracted for the map for visualization. For debugging purposes.
-    /// </summary>
-    private void drawMap()
+    
+
+/// <summary>
+/// Draws the data extracted for the map for visualization. For debugging purposes.
+/// </summary>
+private void drawMap()
+{
+    if (binaryImage != null)
     {
-        if (binaryImage != null)
+        for (int y = 0; y < map.height; y++)
         {
-            for (int y = 0; y < map.height; y++)
+            for (int x = 0; x < map.width; x++)
             {
-                for (int x = 0; x < map.width; x++)
+                if (binaryImage.data[x, y] == 1)
                 {
-                    if (binaryImage.data[x, y] == 1)
-                    {
-                        Gizmos.color = Color.black; //If the data returns a 1, draw it
-                        Vector3 pos = new Vector3(-map.width / 2 + x, -map.height / 2 + y, 0);
-                        Gizmos.DrawCube(pos, Vector3.one);
-                    }
+                    Gizmos.color = Color.black; //If the data returns a 1, draw it
+                    Vector3 pos = new Vector3(-map.width / 2 + x, -map.height / 2 + y, 0);
+                    Gizmos.DrawCube(pos, Vector3.one);
                 }
             }
         }
     }
+}
 }

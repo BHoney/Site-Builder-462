@@ -7,6 +7,7 @@ public class PixelScanner : MonoBehaviour
 
     public Texture2D map;
     private Vector2 pos;
+
     private MapData binaryImage;
     // Use this for initialization
     void Start()

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="" rel="stylesheet">
+    </head>
+        <script>
+        var rootImage = new Image();
+        
+        var numClicks = 0;
+
+       var arr=[[]];//array containing the points clicked
+       
+        rootImage.onload = function() // create image on load
+        {
+            var c=document.getElementById("myCanvas");
+            var ctx=c.getContext("2d");
+           
+             ctx.drawImage(rootImage,0,0, 600,450); //draw image 600 by 450
+        }
+        rootImage.src = "roots1.jpg"
+
+        
+
+        function mouseClickPos(event)
+        {
+            
+            var c=document.getElementById("myCanvas");
+            var ctx=c.getContext("2d");
+            var xpos = event.clientX ;//x position of point 
+            var ypos = event.clientY;// y position of point
+            var x = "X: ";
+            var y = "Y: ";
+
+            var listItem = " X position: " + xpos + " - Y position: " + ypos; //(x,y) of point 
+
+            ctx.fillStyle = "#E01B6A";   // color point pink
+
+
+           arr.push(x);
+           arr.push(xpos);
+           arr.push(y);
+           arr.push(ypos); 
+           
+        // if(arr.length >= 17){
+            arr.push("<br>");
+        // }
+            var stringArr = arr.toString();//convert array to string 
+            var newArr = stringArr.replace(/,/gi,"&nbsp");// replaces all commas with a space using regular expression
+
+             ctx.fillRect(xpos -14,ypos -5,5,5);
+             numClicks++;
+
+            document.getElementById("list").innerHTML =    "<br> number of clicks: " + numClicks + 
+            "<br> Points <br> "+ newArr/*arr.toString()*/; 
+
+            
+          
+        }
+
+
+document.addEventListener("click", mouseClickPos);
+
+    </script>
+    <body>
+    <canvas id="myCanvas" width="600" height="450"> 
+
+    </canvas>
+    <div id = "mpos">
+        
+    </div>
+    <div id="list" height="500">
+        
+    </div>
+    <div id="test">
+        
+    </div>
+
+    </body>
+
+
+</html>

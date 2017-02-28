@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="" rel="stylesheet">
+    </head>
+        <script>
+        var rootImage = new Image();
+     
+        rootImage.onload = function()
+        {
+            var c=document.getElementById("myCanvas");
+            var ctx=c.getContext("2d");
+           
+             ctx.drawImage(rootImage,0,0, 600,450);
+        }
+        rootImage.src = "roots1.jpg"
+
+        function mouseClickPos(event)
+        {
+            var c=document.getElementById("myCanvas");
+            var ctx=c.getContext("2d");
+            var xpos = event.clientX - 16 ;
+            var ypos = event.clientY  - 60;
+            document.getElementById("mpos").innerHTML = 
+               "X position: " +  xpos +
+             " - Y position: "  + ypos;
+             ctx.fillStyle = "#E01B6A";
+
+             ctx.fillRect(xpos -10,ypos -5,5,5);
+        }
+
+document.addEventListener("click", mouseClickPos);
+    </script>
+    <body>
+    <canvas id="myCanvas" width="600" height="450"> 
+
+    </canvas>
+    <div id = "mpos">
+        
+    </div>
+
+    </body>
+
+
+</html>

@@ -156,7 +156,7 @@ public class cornerMatch : MonoBehaviour {
 
 	public void Start(){
 		cornerMatcher (image);
-		cornerMark(image)
+		cornerMark(image);
 //		print (image);
 
 //		for (int r = 0; r < image.GetLength(0); r++) {

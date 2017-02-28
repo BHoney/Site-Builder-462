@@ -7,6 +7,14 @@ public class Wall : MonoBehaviour
     public Point[] parents = new Point[2];
     public bool selected;
 
+	/// <summary>
+	/// Start is called on the frame when a script is enabled just before
+	/// any of the Update methods is called the first time.
+	/// </summary>
+	void Start()
+	{
+	 //Get Parents Here?	
+	}
 
     /// <summary>
     /// Adds the parent points to the wall's internal array.
@@ -47,5 +55,13 @@ public class Wall : MonoBehaviour
 
         }
     }
+	
+	/// <summary>
+	/// Automatically scale the wall to equal the distance between two points
+	/// </summary>
+	/// <param name="scale"></param>
+	public void ScaleSelf(Vector3 scale){
+		this.gameObject.GetComponent<Transform>().localScale+= scale;
+	}
 }
 

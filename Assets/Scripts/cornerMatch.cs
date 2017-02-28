@@ -37,6 +37,27 @@ public class cornerMatch : MonoBehaviour {
 		
 	};
 
+	public void cornerMark(int[,] image){
+
+
+		for (int i = 0; i < image.GetLength(0)-1; ++i) {
+
+			for (int j = 0; j < image.GetLength(1)-1; ++j) {
+
+				if(image[i,j] != 9){
+
+					image[i,j] = 0;
+
+				} 
+
+				else {
+					image[i,j] = 1;
+				}
+
+			}
+		}
+	}
+
 	public void cornerMatcher(int[,] image){
 
 		int[, ]topLeft =
@@ -108,25 +129,25 @@ public class cornerMatch : MonoBehaviour {
 				if(topLeftMatchCount == 9){
 					Debug.Log("Found topLeft pattern at " + i + ", " + j);
 					//		                  9 = top 7 = left
-					image[i,j] = 97;
+					image[i,j] = 9;
 				}
 
 				if(topRightMatchCount == 9){
 					Debug.Log("Found topRight pattern at " + i + ", " + j);
 					//		            	  top = 9 right = 8
-					image[i,j] = 98;
+					image[i,j] = 9;
 				}
 
 				if(botLeftMatchCount == 9 ){
 					Debug.Log("Found botLeft pattern at " + i + ", " + j);
 					//		            	  bot = 2 left = 7
-					image[i,j] = 27;  
+					image[i,j] = 9;  
 				}
 
 				if(botRightMatchCount == 9 ){
 					Debug.Log("Found botRight pattern at " + i + ", " + j);
 					//		            	  bot = 2 right = 8
-					image[i,j] = 28;  
+					image[i,j] = 9;  
 				}
 
 			}
@@ -135,6 +156,7 @@ public class cornerMatch : MonoBehaviour {
 
 	public void Start(){
 		cornerMatcher (image);
+		cornerMark(image)
 //		print (image);
 
 //		for (int r = 0; r < image.GetLength(0); r++) {

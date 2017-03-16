@@ -13,4 +13,8 @@ public class MapData {
 		this.width = _width;
 		this.height = _height;
 	}
+
+	public MapData(){
+		// Debug.Log("Empty map created");
+	}
 }

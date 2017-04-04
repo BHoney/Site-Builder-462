@@ -70,12 +70,13 @@ public class Point : MonoBehaviour
     }
 
 
-    /// <summary>
+     /// <summary>
     /// LateUpdate is called every frame, if the Behaviour is enabled.
     /// It is called after all Update functions have been called.
     /// </summary>
     void LateUpdate()
     {
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (!wallsMade)
@@ -87,6 +88,12 @@ public class Point : MonoBehaviour
                 wallsMade = !wallsMade;
             }
         }
+         if(!wallsMade){
+             foreach(Point p in neighbors){
+                CreateWall(p);
+             }
+             wallsMade = !wallsMade;
+         }
     }
 
     void CreateWall(Point B)
@@ -101,7 +108,8 @@ public class Point : MonoBehaviour
         if (xCompare == 0)
         {
 
-            Origin = new Vector3(this.x, this.y - (yCompare / 2), 0);
+
+            Origin = new Vector3(this.x, this.y -(yCompare / 2), 0);
 
             //Create a new wall object
             GameObject wall = Instantiate(_wall, Origin, Quaternion.identity) as GameObject;
@@ -115,6 +123,7 @@ public class Point : MonoBehaviour
             B.children.Add(newWall);
 
             newWall.ScaleSelf(new Vector3(0.5f, Distance - .5f, 1));
+
         }
 
         if (yCompare == 0)

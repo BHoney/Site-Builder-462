@@ -13,6 +13,7 @@ public class MainController : MonoBehaviour {
 	public GameObject walls;
 	public GameObject tester;
 
+
 	// Use this for initialization
 	void Start () {
 		// Debug.Log("Fetching Map");
@@ -21,6 +22,7 @@ public class MainController : MonoBehaviour {
 		// Debug.Log("Map Fetched");
 		corners._point = points;
 		corners.tester = tester;
+
 		map.data = corners.cornerMatcher(map.data);
 		cord.coordinateGeneration(map.data);
 	}

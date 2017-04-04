@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class CoordinateGen {
 
     //template for 3d coordinates

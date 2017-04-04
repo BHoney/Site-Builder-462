@@ -15,6 +15,7 @@ public class cornerMatch : MonoBehaviour
     public GameObject _point;
     public GameObject tester;
 
+
     int[,] image = {
         {1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
         {1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -63,6 +64,7 @@ public class cornerMatch : MonoBehaviour
                     image[i, j] = 1;
                     GameObject point = Instantiate(_point, new Vector3(i, j, 0), Quaternion.identity) as GameObject;
                     GameObject _highlighter = Instantiate(tester, new Vector3(i,j,0), Quaternion.identity) as GameObject;
+
                 }
 
             }

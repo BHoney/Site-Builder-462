@@ -5,11 +5,11 @@ using UnityEngine;
 public class CoordinateGen {
 
     //template for 3d coordinates
-   private int[] template = [0, 0, 0];
+   private int[] template = {0, 0, 0};
 
-   public List<int> coordList = new List<int>();
+   public List<int[]> coordList = new List<int[]>();
 
-   public int[] coordArray;
+ //  public int[] coordArray;
 
     //dummy input from the cornerfinder
    private int[,] pixelMap={{0,0,0,0,0,0,0,0,0,0},
@@ -24,7 +24,7 @@ public class CoordinateGen {
             {0,0,0,0,0,0,0,0,0,0}};
 	
     //iterate through the given corner map to find corners and their matching pairs
-   public int[,] coordinateGeneration(int [,] map)
+   public List<int[]> coordinateGeneration(int [,] map)
 {
     
     
@@ -40,8 +40,8 @@ public class CoordinateGen {
         }
     }
 
-        coordArray = coordList.ToArray;
-        return coordArray;
+     //   coordArray = coordList.ToArray;
+        return coordList;
 
 }
 
@@ -80,7 +80,7 @@ public class CoordinateGen {
 // Use this for initialization
 	void Start () {
 
-    int[,] coordPairs = coordinateGeneration(pixelMap);
+    //List<int> coordPairs = coordinateGeneration(pixelMap);
 
 	}
 	

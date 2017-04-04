@@ -26,6 +26,7 @@ public class Wall : MonoBehaviour
     {
         parents[0] = A;
         parents[1] = B;
+        this.name = string.Format("Wall {0},{1}", parents[0].gameObject.name, parents[1].gameObject.name);
 
     }
 

@@ -10,11 +10,7 @@ public class PixelScanner : MonoBehaviour
 
     private MapData binaryImage;
     // Use this for initialization
-    void Start()
-    {
-        binaryImage = GetMapData(); //Get the map data and assign it to a variable;
-        
-    }
+  
 
     /// <summary>
     /// Callback to draw gizmos that are pickable and always drawn.
@@ -57,9 +53,16 @@ public class PixelScanner : MonoBehaviour
         // Debug.Log(string.Format("Map Data: {0}, Color {1}", mapData[1, 1], mapPixelData[10]));
 
         MapData completeMap = new MapData(mapData, map.width, map.height);
+//        Debug.Log("Map Created");
         return completeMap;
     }
 
+    public MapData GetMapData(Texture2D _m){
+        // Debug.Log("Overloaded Map Data Method");
+        map = _m;
+        binaryImage = GetMapData();
+        return binaryImage;
+    }
     
 
 /// <summary>

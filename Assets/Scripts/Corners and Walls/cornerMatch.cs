@@ -14,6 +14,7 @@ public class cornerMatch : MonoBehaviour
     //	};
     public GameObject _point;
     public GameObject tester;
+    public MapData original;
 
 
     int[,] image = {
@@ -41,6 +42,7 @@ public class cornerMatch : MonoBehaviour
 
     };
 
+
     public int[,] cornerMark(int[,] image)
     {
         //        Debug.Log("Marking Corners");
@@ -63,7 +65,10 @@ public class cornerMatch : MonoBehaviour
                     //  Debug.Log("Corner Found");
                     image[i, j] = 1;
                     GameObject point = Instantiate(_point, new Vector3(i, j, 0), Quaternion.identity) as GameObject;
-                    GameObject _highlighter = Instantiate(tester, new Vector3(i,j,0), Quaternion.identity) as GameObject;
+                    Point options = point.GetComponent<Point>();
+                    options.mdata = original;
+                    options.isActive = true;
+                    GameObject _highlighter = Instantiate(tester, new Vector3(i, j, 0), Quaternion.identity) as GameObject;
 
                 }
 

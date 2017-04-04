@@ -10,12 +10,16 @@ public class Point : MonoBehaviour
     public GameObject _wall;
     private bool initialized = false;
     private bool wallsMade = false;
+    public bool isActive = false;
+    public MapData mdata;
+
 
     void Start()
     {
         this.x = gameObject.transform.position.x;
         this.y = gameObject.transform.position.y;
         this.gameObject.name = string.Format("Point {0},{1}", x, y);
+        //print(string.Format("{0} isActive: {1}", this.gameObject.name, this.isActive ));
 
     }
 
@@ -56,21 +60,55 @@ public class Point : MonoBehaviour
         }
     }
 
+    public void FindNeighbors(MapData data)
+    {
+        // int i = (int)this.x;
+        // int j = (int)this.y;
+        int[,] map = data.data;
+
+        // if (map[(int)this.x+1, (int)this.y] != 0){ 
+            print("Searching...");
+            //Check right to see if a wall is here
+            //If the wall is here, begin to search for it's end point
+            for (int i = (int) this.x+1; i < data.width; i++)
+            {
+                // print("Checking for Wall");
+                if (map[i, (int) this.y] == 1)
+                {
+                    //Continue until endpoint is found
+                    print(string.Format("Wall segment found at x:{0}, y:{1}", i, this.y));
+                    
+                }
+                else
+                {
+                    //Create new point here, connect to start point (this) as neighbors, draw wall.
+                    print(string.Format("End of wall found at x:{0},y{1}", i, this.y));
+                    //break;
+                }
+            // }
+        }
+
+    }
+
     /// <summary>
     /// Update is called every frame, if the MonoBehaviour is enabled.
     /// </summary>
     void Update()
     {
-        if (!initialized)
+        if (isActive)
         {
-            FindNeighborsRight();
-            FindNeighborsDown();
-            initialized = !initialized;
+            if (!initialized)
+            {
+                //FindNeighborsRight();
+                //FindNeighborsDown();
+                FindNeighbors(mdata);
+                initialized = !initialized;
+            }
         }
     }
 
 
-     /// <summary>
+    /// <summary>
     /// LateUpdate is called every frame, if the Behaviour is enabled.
     /// It is called after all Update functions have been called.
     /// </summary>
@@ -88,12 +126,14 @@ public class Point : MonoBehaviour
                 wallsMade = !wallsMade;
             }
         }
-         if(!wallsMade){
-             foreach(Point p in neighbors){
+        if (!wallsMade)
+        {
+            foreach (Point p in neighbors)
+            {
                 CreateWall(p);
-             }
-             wallsMade = !wallsMade;
-         }
+            }
+            wallsMade = !wallsMade;
+        }
     }
 
     void CreateWall(Point B)
@@ -109,7 +149,7 @@ public class Point : MonoBehaviour
         {
 
 
-            Origin = new Vector3(this.x, this.y -(yCompare / 2), 0);
+            Origin = new Vector3(this.x, this.y - (yCompare / 2), 0);
 
             //Create a new wall object
             GameObject wall = Instantiate(_wall, Origin, Quaternion.identity) as GameObject;

@@ -22,7 +22,7 @@ public class MainController : MonoBehaviour {
 		// Debug.Log("Map Fetched");
 		corners._point = points;
 		corners.tester = tester;
-
+		corners.original = map;
 		map.data = corners.cornerMatcher(map.data);
 		cord.coordinateGeneration(map.data);
 	}

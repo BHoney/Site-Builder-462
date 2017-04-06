@@ -1,9 +1,0 @@
-c:\users\chathuranga\documents\visual studio 2010\Projects\imp4\imp4\bin\Debug\imp4.exe
-c:\users\chathuranga\documents\visual studio 2010\Projects\imp4\imp4\bin\Debug\imp4.pdb
-c:\users\chathuranga\documents\visual studio 2010\Projects\imp4\imp4\obj\x86\Debug\ResolveAssemblyReference.cache
-c:\users\chathuranga\documents\visual studio 2010\Projects\imp4\imp4\obj\x86\Debug\imp4.Properties.Resources.resources
-c:\users\chathuranga\documents\visual studio 2010\Projects\imp4\imp4\obj\x86\Debug\GenerateResource.read.1.tlog
-c:\users\chathuranga\documents\visual studio 2010\Projects\imp4\imp4\obj\x86\Debug\GenerateResource.write.1.tlog
-c:\users\chathuranga\documents\visual studio 2010\Projects\imp4\imp4\obj\x86\Debug\imp4.exe
-c:\users\chathuranga\documents\visual studio 2010\Projects\imp4\imp4\obj\x86\Debug\imp4.pdb
-c:\users\chathuranga\documents\visual studio 2010\Projects\imp4\imp4\obj\x86\Debug\imp4.imp4.resources

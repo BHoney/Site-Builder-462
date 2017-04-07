@@ -99,9 +99,9 @@ public class Point : MonoBehaviour
         {
             if (!initialized)
             {
-                //FindNeighborsRight();
-                //FindNeighborsDown();
-                FindNeighbors(mdata);
+                FindNeighborsRight();
+                FindNeighborsDown();
+               // FindNeighbors(mdata);
                 initialized = !initialized;
             }
         }

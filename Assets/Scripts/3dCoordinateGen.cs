@@ -1,11 +1,11 @@
-﻿using System.Collections;
+﻿/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CoordinateGen : MonoBehaviour {
 
     //template for 3d coordinates
-   private int[] template = [0, 0, 0];
+	private int[] template = {0, 0, 0};
 
    public List<int> coordList = new List<int>();
 
@@ -40,7 +40,7 @@ public class CoordinateGen : MonoBehaviour {
         }
     }
 
-        coordArray = coordList.ToArray;
+		coordArray = coordList.ToArray();
         return coordArray;
 
 }
@@ -86,3 +86,4 @@ public class CoordinateGen : MonoBehaviour {
 	
 
 }
+*/

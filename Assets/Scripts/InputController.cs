@@ -12,6 +12,7 @@ public class InputController : MonoBehaviour
     [SerializeField] private InputField p_length;
     public Camera mainCamera;
 	public Canvas can;
+	public float default_fov = 30.0f;
 
 
 
@@ -55,13 +56,18 @@ public class InputController : MonoBehaviour
         if (Input.GetAxis("Mouse ScrollWheel") < 0f)
         {
             print("Zooming in");
-			// mainCamera.
+			mainCamera.fieldOfView--;
         }
 
         if (Input.GetAxis("Mouse ScrollWheel") > 0f)
         {
             print("Zooming out");
+			mainCamera.fieldOfView++;
         }
+
+		if(Input.GetMouseButtonDown(2)){
+			mainCamera.fieldOfView = default_fov;
+		}
 
     }
 

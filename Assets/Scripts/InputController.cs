@@ -78,7 +78,7 @@ public class InputController : MonoBehaviour
 			x+= Input.GetAxis("Mouse X") * 5.0f * 5f*.02f;
 			Quaternion rotation = Quaternion.Euler(0, x, 0);
 			Vector3 position = rotation * new Vector3(0, 0, 5) + selected.transform.position;
-			// mainCamera.transform.position = position;
+			 mainCamera.transform.position = position;
 			mainCamera.transform.rotation = rotation;
 		}
     }

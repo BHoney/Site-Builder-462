@@ -47,6 +47,9 @@ public class InputController : MonoBehaviour
                 print(selected.name);
                 PopulateUI(selected);
             }
+            else{
+                can.gameObject.SetActive(false);
+            }
         }
 
 

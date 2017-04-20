@@ -36,6 +36,7 @@ public class InputController : MonoBehaviour
     void Update()
     {
 
+        ///Click on an object to select it
         if (Input.GetMouseButtonDown(0))
         {
             Debug.Log("Mouse Clicked");
@@ -48,6 +49,8 @@ public class InputController : MonoBehaviour
             }
         }
 
+
+       ///Mouse wheel zooms
         if (Input.GetAxis("Mouse ScrollWheel") < 0f)
         {
             print("Zooming in");
@@ -74,6 +77,7 @@ public class InputController : MonoBehaviour
    void LateUpdate()
     {
 
+        ///Ugly Camera Rotation
         if (Input.GetMouseButton(1))
         {
             Debug.Log("Right Click");

@@ -101,7 +101,7 @@ public class InputController : MonoBehaviour
     }
     
     /// <summary>
-    /// Fills in the UI with the currently selected object's data values
+    /// Fills in the UI with the currently selected object'sdata values
     /// </summary>
      public void PopulateUI(){
         PopulateUI(selected);

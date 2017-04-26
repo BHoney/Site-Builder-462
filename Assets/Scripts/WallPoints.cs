@@ -488,7 +488,7 @@ public class WallPoints : MonoBehaviour {
 						image2 [i, j + k] = 1;
 					}
 					//create cube at midpoint for x bc cube scales both ways, some for y, z = row(i)
-					Instantiate(xcube,new Vector3(midPoint,30,i) , Quaternion.identity);
+					Instantiate(xcube,new Vector3(midPoint,-30,i) , Quaternion.identity);
 					Destroy (xcube);
 				} 
 
@@ -998,7 +998,8 @@ public class WallPoints : MonoBehaviour {
 //		drawXF (m);
 
 		drawXF (binaryPixels);
-		drawX (binaryPixels, 10,10 );
+		drawX (binaryPixels,0,0);
+//		drawX (binaryPixels, 10,10 );
 
 //		drawXF (scaleX (scaleY (imagex, 8),8));
 

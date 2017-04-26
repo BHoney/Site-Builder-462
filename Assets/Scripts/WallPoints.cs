@@ -330,7 +330,7 @@ public class WallPoints : MonoBehaviour {
 
 	public Material brick;
 	//draws walls in x direction using a cube object per wall
-	public void drawX(int[,]image){
+	public void drawX(int[,]image, int xScale,int yScale){
 		int hi = 12;
 		int [,]image2 =copyIMG (image);
 		for (int i = 0; i <=  image2.GetLength (0) - 1; ++i) {
@@ -347,22 +347,28 @@ public class WallPoints : MonoBehaviour {
 //					Material newMat = Resources.Load("Industrial_stone_Brick", typeof(Material)) as Material;
 					rend.material =brick;
 
-					int start = j; // start at col j
-					int length = xLen (image2,i,j); // get len in x direction(xwall) of given point(first 0 in x direction)
+					int start = j ; // start at col j
+					int length = xLen (image2,i,j) ; // get len in x direction(xwall) of given point(first 0 in x direction)
 					int end = length + start - 1; //end point of xwall
 					float midPoint = (float)(start + end) / 2;//get mid point for instant. cube
 
 
 
 					// x = length-1 (wall len -1 bc scale starts at 1)
-					xcube.transform.localScale += new Vector3 (length-1,hi,0);
+					xcube.transform.localScale += new Vector3 (length-1 + xScale ,hi,0 + yScale);
+//					xcube.transform.
+
 
 					// get rid of remaining wall to avoid drawing cube for each 0 point
 					for(int k =0; k < length; k++){
 						image2 [i, j + k] = 1;
 					}
+
 					//create cube at midpoint for x bc cube scales both ways, some for y, z = row(i)
-					Instantiate(xcube,new Vector3(midPoint,hi/2,i) , Quaternion.identity);
+					Instantiate(xcube,new Vector3(midPoint + xScale,hi/2,i +yScale  ) , Quaternion.identity);
+
+
+				
 					Destroy (xcube);
 				} 
 
@@ -464,7 +470,7 @@ public class WallPoints : MonoBehaviour {
 				//				if 0 create a cube 
 				if (image2 [i,j] == 0  ) {
 					GameObject xcube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-					xcube.GetComponent<Renderer>().material.color = Color.red;
+					xcube.GetComponent<Renderer>().material.color = Color.white;
 //					xcube.transform.localPosition += new Vector3(0, -30, 0);
 					xcube.transform.localScale += new Vector3 (0, (float)-.8,0 );
 					int start = j; // start at col j
@@ -482,7 +488,7 @@ public class WallPoints : MonoBehaviour {
 						image2 [i, j + k] = 1;
 					}
 					//create cube at midpoint for x bc cube scales both ways, some for y, z = row(i)
-					Instantiate(xcube,new Vector3(midPoint,-1,i) , Quaternion.identity);
+					Instantiate(xcube,new Vector3(midPoint,30,i) , Quaternion.identity);
 					Destroy (xcube);
 				} 
 
@@ -571,7 +577,7 @@ public class WallPoints : MonoBehaviour {
 		var lengthX = array.GetLength(0);
 		var lengthY = array.GetLength(1);
 
-		print (lengthY = array.GetLength (1));
+//		print (lengthY = array.GetLength (1));
 		// the reason why we get lengths of dimensions before looping through
 		// is because we would like to use `List<T>(int length)` overload
 		// this will prevent constant resizing of its underlying array and improve performance
@@ -624,6 +630,14 @@ public class WallPoints : MonoBehaviour {
 		return count;
 
 	}
+
+
+
+//	public static void scaleX(int[,] image, int scale){
+//	}
+//
+//	public static int[,] scaleX(int[,] image, int scale)
+
 		public static int[,] scaleX(int[,] image, int scale){
 			Double [,]  image2 = intArrToDouble(image);
 		List<List<Double>> imageList = intArrToList(image2);
@@ -638,6 +652,7 @@ public class WallPoints : MonoBehaviour {
 		for(int j = 0; j < imageList.ElementAt(i).Count();j++){
 						
 				if(imageList.ElementAt(i).ElementAt(j) == (0.0)){
+//					print ("true");
 						int len = xDoubleLen(imageList, i,j);
 //						//						System.out.println("len " + len);
 						List<Double> arrList = new List<Double>(); // list used to add wall pix
@@ -915,7 +930,7 @@ public class WallPoints : MonoBehaviour {
 		return binaryPixels;
 
 	}
-
+	public Texture2D b;
 	//		public Texture2D theTexture;
 	//		public int[,] binaryPixels;
 	//		private Color [,] pixels;
@@ -966,170 +981,24 @@ public class WallPoints : MonoBehaviour {
 		//change into integer 2d array
 		int[,]binaryPixels = ColorArrayToBinaryIntArray (pixels,width,height);
 
-//			int[,] image1 = {	
-//				{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//				{ 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//				{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//				{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//				{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//				{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//				{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//				{ 1, 1, 1, 1, 0, 0, 0 ,0 ,0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//	
-//			} ;
-//
-//
-//		int[,] image2 = {	
-//			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//			{ 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1},
-//			{ 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1},
-//			{ 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1},
-//			{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1},
-//			{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1},
-//			{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0},
-//			{ 1, 1, 1, 1, 0, 0, 0 ,0 ,0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//			{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//			{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//			{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//			{ 1, 1 ,1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//			{ 1, 1 ,1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//			{ 1, 1 ,1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//			{ 1, 1 ,1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//			{ 1, 1 ,1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1},
-//			{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//
-//		} ;
-//
-//		int[,] image3 = {	
-//			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0},
-//			{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0},
-//			{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0},
-//			{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0},
-//			{ 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0},
-//			{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0},
-//			{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0},
-//			{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-//			{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-//			{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-//			{ 1, 1, 1, 0, 0, 0, 0 ,0 ,0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-//			{ 1, 1 ,0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-//			{ 1, 1 ,0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1},
-//			{ 1, 1 ,0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
-//			{ 1, 1 ,1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1},
-//			{ 1, 1 ,1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1},
-//			{ 1, 1 ,1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1},
-//			{ 1, 1 ,1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//			{ 1, 1 ,1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0},
-//			{ 1, 1 ,1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0},
-//
-//		} ;
-//
-//				int[,] image4 = {	
-//					{ 0, 0 ,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-//					{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0},
-//					{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0},
-//					{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0},
-//					{ 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0},
-//					{ 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0},
-//					{ 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0},
-//					{ 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-//					{ 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-//					{ 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-//					{ 0, 1, 1, 0, 0, 0, 0 ,0 ,0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-//					{ 0, 1 ,0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-//					{ 0, 1 ,0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0},
-//					{ 0, 1 ,0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0},
-//					{ 0, 1 ,1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0},
-//					{ 0, 0 ,0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0},
-//					{ 0, 1 ,1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0},
-//					{ 0, 1 ,0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0},
-//					{ 0, 1 ,1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0},
-//					{ 0, 0 ,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-//		
-//				} ;
-//
-//		int[,] image5 = {	
-//			{ 0, 0 ,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-//			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-//			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-//			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-//			{ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-//			{ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-//			{ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-//			{ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-//			{ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-//			{ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-//			{ 0, 1, 1, 1, 1, 1, 1 , 1, 1, 1,1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-//			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-//			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-//			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-//			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-//			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-//			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-//			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-//			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-//			{ 0, 0 ,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-//
-//		} ;
-//
-//		int[,] imagey = {	
-//			{ 0, 0 ,1, 0, 1, 1},
-//			{ 0, 0 ,1, 0, 1, 1},
-//			{ 0, 0 ,1, 0, 1, 1},
-//			{ 0, 0 ,1, 0, 1, 1},
-//
-//		} ;
-//
-//		int[,] imagex = {	
-//			{ 0, 0 ,0, 0, 0, 0},
-//			{ 0, 1 ,1, 0, 0, 1},
-//			{ 1, 1 ,1, 1, 1, 1},
-//			{ 0, 0 ,1, 0, 0, 0},
-//
-//		} ;
-//
-//
-//
-//
-//		int[,] imagex2 = {	
-//			{ 0, 0 ,0, 0, 0, 0},
-//			{ 0, 1 ,1, 0, 0, 1},
-//			{ 1, 1 ,1, 1, 1, 1},
-//			{ 0, 0 ,1, 0, 0, 0},
-//
-//		} ;
-//
-//		int[,] xwall = {
-//			{ 1,0,0,0,0,1,0,1,1},	
-//			{ 0,1,0,1,0,1,0,1,0},
-//		} ;
-//
-//		for (int i = 0; i < binaryPixels.GetLength (0); i++) {
-//			for (int j = 0; j < binaryPixels.GetLength (1); j++) {
-//				print (binaryPixels.GetLength (0));
-//				print (binaryPixels.GetLength (1));
-//				print(binaryPixels [i, j]);
-//			}
-//		}
-		drawX (binaryPixels);
-		drawXF(binaryPixels);
+		GameObject floor = GameObject.Find("Floor");
+		floor.transform.localPosition += new Vector3(width/2, 0, height/2);
+		floor.transform.localScale += new Vector3 (width,0,height);
+
+//		drawX (binaryPixels);
+//		drawXF(binaryPixels);
 //		drawX2(imagex);
-//		drawX (scaleX (scaleY (imagex, 8),8));
+		int[,] m = {
+			{ 1, 0, 0, 0, 1 },
+			{ 1, 0, 0, 1, 0 },
+			{ 1, 1, 0, 0, 0 },
+		};
+//		int[,] img = scaleX(binaryPixels, 90);
+
+//		drawXF (m);
+
+		drawXF (binaryPixels);
+		drawX (binaryPixels, 10,10 );
 
 //		drawXF (scaleX (scaleY (imagex, 8),8));
 
@@ -1138,5 +1007,21 @@ public class WallPoints : MonoBehaviour {
 	}
 
 
-
+//	void OnGUI() {
+//
+//		//		(new Rect (20, 20, texture.width/2, texture.height/2)
+//
+//		Rect rect = new Rect(Screen.width/4, 200, Screen.width/2, Screen.height/2);//Rect to put the texture on
+//		if (b!= null) {
+//			GUI.DrawTexture(rect, b,ScaleMode.StretchToFill);//draws the texture on the rect
+//
+//			GUI.Button(new Rect(800, 660, 130, 30), "Hide Image");
+//
+//
+//		}
+//
+//
+//
+//
+//	}
 }

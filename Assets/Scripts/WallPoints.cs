@@ -156,6 +156,46 @@ public class WallPoints : MonoBehaviour {
 
 	}
 
+
+	public static int yLen(int [,]image, int row,int col){
+		int j =row;
+		int count = 0;
+		while(image[j,col] == 0.0 && j != (image.GetLength(0) -1)){
+			//				System.out.println("HERE");
+			//				if(j != image[0].length -1){
+			j++;
+			//				}
+			count++;
+
+		}
+		if(j == (image.GetLength(0) -1) && image[j,col] == 0){
+			count++;
+		}
+
+		return count;
+
+	}
+//	//returns the length of the wall in the x++ direction
+//	public static int yLen(int[,] image,int row,int col){
+//		int j =row;
+//		int count = 0;
+//		while(image[row,j] == 0 && j != image.GetLength(1) -1){
+//			j++;
+//			count++;
+//
+//		}
+//		if(j == image.GetLength(1) -1 && image[row,j] ==0){
+//			count++;
+//		}
+//
+//		return count;
+//
+//	}
+
+
+
+
+
 	//returns the length of the wall in the x-- direction
 	public static int xLenRev(int[,] image,int row,int col){
 		int j = col;
@@ -241,15 +281,22 @@ public class WallPoints : MonoBehaviour {
 	}
 
 
+
+
+
+//
 //	public int[,] scaleX(int[,] image, int scale){
 //		
 //			int [,]image2 =copyIMG (image);
 //		int rows = (image2.GetLength (0) - 1);
-//		int newCols = (image2.GetLength (1) - 1 + scale);
+//		int maxWallSegs = maxLineSegs (image);//max # of wall segments in line
+////		int maxWallPix = maxLinePixs(image);//max pix in line
+//
+//		int newCols = (image2.GetLength (1) - 1 + maxWallSegs * scale);//new number of cols 
 //		image2 = ResizeArray (image2,rows,newCols  );
 //		for (int i = 0; i <= image2.GetLength (0) - 1; ++i) {
 //		
-//			for (int j = image2.GetLength (1) - 2; j >= 0; j--) {
+//			for (int j = image2.GetLength (1) - 1; j >= 0; j--) {
 //				if (image2 [i,j] == 0) {
 //					int wallStart = j;
 //					int len = xLenRev (image2,i,j);
@@ -260,7 +307,7 @@ public class WallPoints : MonoBehaviour {
 //					for(int k =0; k < len; k++){
 //						image2 [i, j - k] = 1;
 //					}
-////					image2 [i, j + wallSegs * scale] = image2 [i, j];
+//					image2 [i, j + wallSegs * scale ] = image2 [i, j];
 ////					image2 [i, wallEnd];
 //
 //				}
@@ -268,6 +315,10 @@ public class WallPoints : MonoBehaviour {
 //		}
 //		return image2;
 //	}
+
+
+
+
 
 //	modified from http://stackoverflow.com/questions/6539571/how-to-resize-multidimensional-2d-array-in-c to add all new entries as 1's
 
@@ -289,7 +340,7 @@ public class WallPoints : MonoBehaviour {
 	}
 
 //	returns the number of wall segments of given row
-	public int xLineSegs(int [,] image, int row){
+	public static int xLineSegs(int [,] image, int row){
 		
 		int iswall = 0;
 		int count = 0;
@@ -317,14 +368,34 @@ public class WallPoints : MonoBehaviour {
 	}
 
 	//	returns the maximum number of wall segments from a
-//	public int xLineSegs(int [,] image, int row){
+	public static int maxLineSegs(int [,]image){
+
+//		int iswall = 0;
+//		int count = 0;
+		int max = 0;
+		int temp = 0;
+		for (int i = 0; i <= image.GetLength (0)-1 ; ++i) {
+
+			temp = xLineSegs(image, i);
+			if(temp > max){
+			max = temp;
+			
+			}
+
+		}
+		return max;
+
+	}
+
+
+//	public static int xLineSegs(int [,] image, int row){
 //
 //		int iswall = 0;
 //		int count = 0;
 //
-//		for (int j = 0; j <= image.GetLength (1)-1 ; ++j) {
+//		for (int j = 0; j <= image.GetLength(1)-1 ; ++j) {
 //			//				print ("j " + j + "len " + (image.GetLength(1) -1));
-//			if(j == image.GetLength(1) -1 && row != image.GetLength (0)-1){
+//			if(j == image.GetLength(1) -1 && row != image.GetLength(1)-1){
 //
 //				iswall = 0;
 //			}
@@ -344,9 +415,37 @@ public class WallPoints : MonoBehaviour {
 //
 //	}
 
+
+//	returns the max pixels contained in a line 
+	public int maxLinePixs(int[,] image){
+//		int [,]image2 =copyIMG (image);
+		int count = 0;
+//		int temp = 0;
+		int max = 0;
+		for (int i = 0; i <= image.GetLength (0) - 1; ++i) {
+
+			for (int j = 0; j <= image.GetLength (1) - 1; ++j) {
+				if (j == image.GetLength (1) - 1) {
+					count = 0;
+//					print ("end");
+				}
+				if(image[i,j] == 0){
+					count++;
+					if(count > max){
+						max = count;
+					}
+				
+
+				}
+//				return max;
+			}
+		}
+		return max;
+	}
+
 	//draws walls in x direction using a cube object per wall
 	public void drawX(int[,]image){
-		int hi = 2;
+		int hi = 12;
 		int [,]image2 =copyIMG (image);
 		for (int i = 0; i <=  image2.GetLength (0) - 1; ++i) {
 
@@ -382,6 +481,47 @@ public class WallPoints : MonoBehaviour {
 			}
 		}
 	}
+
+
+	//draws walls in x direction using a cube object per wall
+	public void drawY(int[,]image){
+		int hi = 12;
+		int [,]image2 =copyIMG (image);
+		for (int i = 0; i <=  image2.GetLength (0) - 1; ++i) {
+
+			for (int j = 0; j <= image2.GetLength (1) - 2; ++j) {
+
+				print ("drawing Y");
+				//				if 0 create a cube 
+				if (image2 [i,j] == 0  ) {
+					GameObject xcube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+					xcube.GetComponent<Renderer>().material.color = Color.black;
+					//					GameObject xcube = GameObject.Find("bube");
+
+					int start = j; // start at col j
+					int length = yLen (image2,i,j); // get len in x direction(xwall) of given point(first 0 in x direction)
+					int end = length + start - 1; //end point of xwall
+					float midPoint = (float)(start + end) / 2;//get mid point for instant. cube
+
+
+
+					// x = length-1 (wall len -1 bc scale starts at 1)
+					xcube.transform.localScale += new Vector3 (0,hi,length-1);
+
+					// get rid of remaining wall to avoid drawing cube for each 0 point
+					for(int k =0; k < length; k++){
+						image2 [i + k, j] = 1;
+					}
+					//create cube at midpoint for x bc cube scales both ways, some for y, z = row(i)
+					Instantiate(xcube,new Vector3(midPoint,hi/2,i) , Quaternion.identity);
+					Destroy (xcube);
+				} 
+
+
+			}
+		}
+	}
+
 
 
 	//draws flat x image
@@ -431,7 +571,7 @@ public class WallPoints : MonoBehaviour {
 
 
 //	retruns the amount of wall segments from an ximage
-	public int xWallSeg(int[,] image){
+	public int xWallSegTotal(int[,] image){
 		int iswall = 0;
 		int count = 0;
 		for (int i = 0; i <= image.GetLength (0)-1 ; ++i) {
@@ -472,6 +612,364 @@ public class WallPoints : MonoBehaviour {
 		}
 		return tex;
 	}
+
+
+
+
+
+
+
+	//		turns int[][] to Double[][]
+	public static Double [,] intArrToDouble(int[,]image){
+
+		Double [,] image2 =new Double[image.GetLength(0),image.GetLength(1)];
+
+		for(int i = 0; i < image.GetLength(0);i++){
+			for(int j = 0; j < image.GetLength(1); j++){
+				image2[i,j] = (double) image[i,j];
+			}
+
+		}
+
+		return image2;
+	}
+
+
+	public static List<List<Double>> intArrToList<Double>( Double[,] array)
+	{
+		var result = new List<List<Double>>();
+		var lengthX = array.GetLength(0);
+		var lengthY = array.GetLength(1);
+
+		print (lengthY = array.GetLength (1));
+		// the reason why we get lengths of dimensions before looping through
+		// is because we would like to use `List<T>(int length)` overload
+		// this will prevent constant resizing of its underlying array and improve performance
+		for(int i = 0; i < lengthX;  i++)            
+		{
+			var listToAdd = new List<Double>(lengthY);
+
+			for(int i2 = 0; i2 < lengthY; i2++)
+			{
+				listToAdd.Add(array[i, i2]);
+			}
+
+			result.Add(listToAdd);
+		}       
+
+
+
+
+//
+//
+//		foreach (var sublist in result)
+//		{
+//			foreach (var obj in sublist)
+//			{
+//				print(obj);
+//			}
+//		}
+		return result;
+	}     
+
+	//		Double[][] to List of Lists
+//	public static List<List<Double>> doubleTwoDList(Double[,] image){
+//		List<List<Double>> result = new List<List<double>>();
+//		List<Double> sublist = new List<Double>();
+//		result = image..ToList();
+////		foreach(Double[] array in image){
+////			result.AddRange( array.ToList() );
+////		}
+////		for (int i = 0; i < result.Count (); i++) {
+////			
+//////			h = image.Cast<double> ().ToList ();
+////			List<double> lst = image.Cast<double> ().ToList ();
+////			result.Add(lst);
+////			print (" i " + i + " res " + result.ElementAt (i).ElementAt(i));
+////		}
+//
+//
+//	
+//		return result;
+//	}
+
+	public static int xDoubleLen(List<List<Double>> imgList,int row,int col){
+		int j =col;
+		int count = 0;
+		while(imgList.ElementAt(row).ElementAt(j) == ( 0.0) && j != imgList.ElementAt(row).Count() -1){
+			//				System.out.println("HERE");
+			//				if(j != image[0].length -1){
+			j++;
+			//				}
+			count++;
+
+		}
+		if(j == imgList.ElementAt(row).Count() -1 && imgList.ElementAt(row).ElementAt(j) == (0.0)){
+			count++;
+		}
+
+		return count;
+
+	}
+		public static int[,] scaleX(int[,] image, int scale){
+			Double [,]  image2 = intArrToDouble(image);
+		List<List<Double>> imageList = intArrToList(image2);
+			int maxWallSegs = maxLineSegs(image);
+		String[,] scaledIMGString = new String[image.GetLength(0),image.GetLength(1) + scale*maxWallSegs];
+		int[,] scaledIMG = new int[image.GetLength(0),image.GetLength(1) + scale*maxWallSegs];
+			//			ArrayList scaledIMGListimage = new ArrayList(image[0].length + scale*maxWallSegs);
+			int arrSize = 0;
+	
+			for(int i = 0; i < imageList.Count();i++){
+	
+		for(int j = 0; j < imageList.ElementAt(i).Count();j++){
+						
+				if(imageList.ElementAt(i).ElementAt(j) == (0.0)){
+						int len = xDoubleLen(imageList, i,j);
+//						//						System.out.println("len " + len);
+						List<Double> arrList = new List<Double>(); // list used to add wall pix
+					List<Double> fixedList =  imageList.ElementAt(i);// grab list(becomes fixed list from get )
+//						//						System.out.println(arrList.size());
+					for(int m = 0 ; m < fixedList.Count(); m++){
+						arrList.Add((Double) fixedList.ElementAt(m)); // copy fixed list to flexible list
+//							//							System.out.println(fixedList.get(m));
+//	
+//	
+						}
+//						//						System.out.println(arrList.size());
+//						//						System.out.println(arrList + "\n Size "+  arrList.size() +  "  max " + (image[0].length + scale*maxWallSegs ));
+//	
+//						//						System.out.println(arrList);
+						for(int k = 0; k < scale; k++){
+						arrList.Insert(j, 0.0); // add wall pix for scale
+//	
+						}
+					while(arrList.Count() < (image.GetLength(1) + scale*maxWallSegs )){//set extra spaces to 1(not wall)
+//							//							System.out.println("smaller");
+						arrList.Add(1.0);
+						}
+//						//						System.out.println(arrList);
+//	
+					while(arrList.Count() > (image.GetLength(1) + scale*maxWallSegs)){ // remove extra ones arrays equal sizes
+						arrList.RemoveAt(arrList.Count()-1);
+						}
+//						//						System.out.println( "LAst " +  arrList);
+//	
+					if(len == image.GetLength(1)){ // if the wall is the length set scaled row to all zeros
+						for(int p = 0; p < arrList.Count();p++){
+//								arrList.set(p,0.0);
+							arrList[p] = 0.0;
+							}
+						}
+//						imageList.set(i,arrList);//set to scaled
+					imageList[i] = arrList;
+						j = j + len + scale;	//j now at the end of the wall					
+					}
+//	
+				}
+//				//				System.out.println(imageList.get(i));
+			}
+//	
+//	
+		for(int s = 0; s < imageList.Count();s++){
+			for(int t = 0; t < imageList.ElementAt(s).Count();t++){
+//				scaledIMGString[s][t] =  (imageList.ElementAt(s).ElementAt(t)).toString();//add to string image
+	
+//					scaledIMG[s][t] = Integer.parseInt(scaledIMGString[s][t].replace(".0", "")); //parse to int		
+				scaledIMG[s,t] = Convert.ToInt32(imageList.ElementAt(s).ElementAt(t));
+	
+				}
+			}
+//	
+//	
+//			printIMG(scaledIMG);
+			return scaledIMG;
+		}
+
+
+
+	public static int yLineSegs(int [,] image, int col){
+
+		int iswall = 0;
+		int count = 0;
+
+		for (int j = 0; j <= image.GetLength(0)-1 ; ++j) {
+			//				print ("j " + j + "len " + (image.GetLength(1) -1));
+			if(j == image.GetLength(0) -1 && col != image.GetLength(1)-1){
+
+				iswall = 0;
+			}
+
+
+			//its a wall
+			if (iswall == image[j,col]) {
+				count++;
+				iswall = -1;
+
+			}
+			if (iswall == -image [j,col]) {
+				iswall = 0;
+			}
+
+		}
+
+		return count;
+
+	}
+
+
+
+	public static int maxLineSegsY(int [,]image){
+
+		//		int iswall = 0;
+		//		int count = 0;
+		int max = 0;
+		int temp = 0;
+		for (int i = 0; i <= image.GetLength(1)-1 ; ++i) {
+
+			temp = yLineSegs (image, i);
+			if(temp > max){
+				max = temp;
+
+			}
+
+		}
+		return max;
+
+	}
+
+
+
+	public static List<Double> getCol2(List<List<Double>> imageList, int col){
+		List<Double> cols = new List<Double>( imageList.Count());
+		for(int i = 0; i <imageList.Count();i++ ){
+
+			cols.Add( imageList.ElementAt(i).ElementAt(col)  );
+			//					System.out.println(" add at " + col);
+			//				}
+		}
+		return cols;
+	}
+
+
+
+
+
+	public static int[,] scaleY(int[,] image, int scale){
+
+
+
+//		String[,] scaledIMGString = new String[image.GetLength(0),image.GetLength(1) + scale*maxWallSegs];
+//		int[,] scaledIMG = new int[image.GetLength(0),image.GetLength(1) + scale*maxWallSegs];
+
+
+		Double [,]  image2 = intArrToDouble(image);
+		List<List<Double>> imageList = intArrToList(image2);
+		List<List<Double>> imageList2 = new List<List<Double>>();
+		int maxWallSegs = maxLineSegsY(image);
+		String[,] scaledIMGString = new String[image.GetLength(0)+ scale*maxWallSegs,image.GetLength(1)];
+		int[,] scaledIMG = new int[image.GetLength(0)+ scale*maxWallSegs,image.GetLength(1) ];
+//		int[][] scaledIMG = new int[image.GetLength(0)+ scale*maxWallSegs][image[0].length ];
+		//			ArrayList scaledIMGListimage = new ArrayList(image[0].length + scale*maxWallSegs);
+		//			int arrSize = 0;
+
+
+
+		for(int m = 0; m < imageList.ElementAt(0).Count();m++){
+			imageList2.Add(getCol2(imageList,m));
+			//					System.out.println(getCol2(imageList,m));
+		}
+
+		//	}
+
+
+
+		for(int i = 0; i < imageList2.Count();i++){
+
+			for(int j = 0; j < imageList2.ElementAt(0).Count();j++){
+				//					imageList2.add(getCol2(imageList,j));
+				//					System.out.println("j " + j);
+				//					System.out.println( "imagelis2222 \n" + imageList2 +  "\n");
+				//					List colList = new ArrayList();
+				//					colList.addAll(getCol2(imageList,j));// 
+				//					System.out.println("ColList " +  colList + "\n");
+				if(imageList2.ElementAt(i).ElementAt(j) == (0.0)){
+					
+					int len = xDoubleLen(imageList2, i,j);
+
+					//						System.out.printf("[%d][%d]  \nlen %d",i,j, len);
+					List<Double> colList = imageList2.ElementAt(i);
+					//						 List colList = getCol2(imageList, j);// 
+
+					//						System.out.println("col list \n" + colList + "\n");
+
+
+					List<Double> arrList = new List<Double>(); // list used to add wall pix
+					//						List fixedList =  (List) imageList.get(i).get(j);// grab list(becomes fixed list from get )
+
+					for(int m = 0 ; m <  colList.Count(); m++){
+						arrList.Add((Double)  colList.ElementAt(m)); // copy fixed list to flexible list
+					}
+
+
+
+					for(int k = 0; k < scale; k++){
+						arrList.Insert(j, 0.0); // add wall pix for scale
+
+					}
+					while(arrList.Count() < (image.GetLength(0) + scale*maxWallSegs) ){//set extra spaces to 1(not wall)
+						arrList.Add(1.0);
+					}
+
+					while(arrList.Count() > (image.GetLength(0)  + scale*maxWallSegs)){ // remove extra ones make arrays equal sizes
+						arrList.RemoveAt(arrList.Count()-1);
+//						arrList.remove(arrList.size()-1);
+					}
+
+					if(len == image.GetLength(0)){ // if the wall is the length set scaled row to all zeros
+						for(int p = 0; p < arrList.Count();p++){
+//							arrList[p] = 0.0;
+							arrList[p] = 0.0;
+//							arrList.set(p,0.0);
+						}
+					}
+
+
+
+//					imageList2.set(i,arrList);//set to scaled
+					imageList2[i] = arrList;
+					j = j + len + scale;	//j now at the end of the wall					
+				}
+
+			}
+
+		}
+
+
+		for(int s = 0; s < imageList2.Count();s++){
+			for(int t = 0; t < imageList2.ElementAt(s).Count();t++){
+				scaledIMGString[t,s] =  (imageList2.ElementAt(s).ElementAt(t)).ToString();//add to string image
+
+
+				//switch s and t 
+//				scaledIMG[t][s] = Integer.parseInt(scaledIMGString[t][s].replace(".0", "")); //parse to int	
+				scaledIMG[t,s] = Convert.ToInt32(scaledIMGString[t,s]);
+
+			}
+		}
+
+
+//		printIMG(scaledIMG);
+		return scaledIMG;
+	}
+
+
+
+
+
+
+
+
 //	public GameObject bube ;
 	// Use this for initialization
 	void Start () {
@@ -647,7 +1145,15 @@ public class WallPoints : MonoBehaviour {
 //		int[,] newArr = ResizeArray (imagex, row, newCol);
 //		print(newArr [0,6]);
 
-//		scaleX (imagex, 3);
+//		int[,] sIMG= scaleY (imagex, 3); 
+
+//		for (int i = 0; i < imagex.GetLength (0); i++) {
+//			for (int j = 0; j < imagex.GetLength (1); j++) {
+//			print (imagex[0,j]+", ");
+//
+//			}
+//		}
+//		drawX (sIMG);
 //		print(xLenRev(imagex,3,5));
 
 
@@ -660,13 +1166,43 @@ public class WallPoints : MonoBehaviour {
 		} ;
 
 		int[,] xwall = {
-			{ 0,0,0,0,1,0,1,1},	
-			{ 0,0,1,0,1,0,1,0},
+			{ 1,0,0,0,0,1,0,1,1},	
+			{ 0,1,0,1,0,1,0,1,0},
 		} ;
 
 
+//		drawX ();
+//		drawX(imagex);
+		drawX (scaleX (scaleY (imagex, 2),2));
+//		print (maxLinePixs(xwall));
+//		double[,] g = intArrToDouble(xwall);
+//		List<List<Double>> k = intArrToList (g);
+//		for (int s = 0; s < g.GetLength(0); s++) {
+//			for (int t = 0; t < g.GetLength(1); t++) {
+//				print (g[s,t]);
+//			}
+//		}
+//		//		;
+//		print ("g " +g);
+//		for (int s = 0; s < g.GetLength(0); s++) {
+//			for (int t = 0; t < g.GetLength(1); t++) {
+//				print (k.ElementAt (s).ElementAt (t));
+//			}
+//		}
+
+
+
+
+
+//		;
+//		doubleTwoDList (g);
+
+
+//		print(ToList (g));
+//		("" + intArrToList (g));
+//		print();
 //		 Rect sourceRect;
-		Texture2D h = LoadPNG("/Users/angelrodriguez/Desktop/bp1.jpg");
+//		Texture2D h = LoadPNG("/Users/angelrodriguez/Desktop/bp1.jpg");
 
 //		int width = Mathf.FloorToInt(h.width);
 //		int height = Mathf.FloorToInt(h.height);
@@ -699,13 +1235,17 @@ public class WallPoints : MonoBehaviour {
 //
 //		print ("max len " + imagex.GetLength (1));
 //		print(xLineSegs(xwall,1));
-		drawXF(xIMG(imagex));
-
-		drawX (xIMG(imagex));
 
 
+//		drawXF(imagex);
+//
+//		drawX (xIMG(imagex));
 
-//		scaleX (xIMG(imagex), 10);
+
+
+
+
+
 
 
 

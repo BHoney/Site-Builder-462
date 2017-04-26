@@ -45,30 +45,7 @@ public class WallPoints : MonoBehaviour {
 		}
 
 	}
-	public void printList1(List<Color> wallPoints){
 
-		//		print each point for each point int the List wallpoint
-		foreach(Color point in wallPoints)
-		{
-			print (point.ToString());
-		}
-
-	}
-	public void print2dArr(int[,] arr){
-		
-		int rowLength = arr.GetLength(0);
-		int colLength = arr.GetLength(1);
-
-		for (int i = 0; i < rowLength; i++)
-		{
-			for (int j = 0; j < colLength; j++)
-			{
-				print(string.Format("{0} ", arr[i, j]));
-			}
-			print ("\n");
-		}
-//		Console.ReadLine();
-	}
 		
 	//returns image of walls in x direction
 	public int[,] xIMG(int [,] image){
@@ -156,7 +133,7 @@ public class WallPoints : MonoBehaviour {
 
 	}
 
-
+	//returns the length of the wall in the y++ direction
 	public static int yLen(int [,]image, int row,int col){
 		int j =row;
 		int count = 0;
@@ -175,22 +152,7 @@ public class WallPoints : MonoBehaviour {
 		return count;
 
 	}
-//	//returns the length of the wall in the x++ direction
-//	public static int yLen(int[,] image,int row,int col){
-//		int j =row;
-//		int count = 0;
-//		while(image[row,j] == 0 && j != image.GetLength(1) -1){
-//			j++;
-//			count++;
-//
-//		}
-//		if(j == image.GetLength(1) -1 && image[row,j] ==0){
-//			count++;
-//		}
-//
-//		return count;
-//
-//	}
+
 
 
 
@@ -214,53 +176,7 @@ public class WallPoints : MonoBehaviour {
 
 	}
 
-//	public void scaleX(int[,] image, int scale){
-//		int hi = 20;
-////		int[,] scaledIMG;
-//		int [,]image2 =copyIMG (image);
-//		for (int i = 0; i <=  image2.GetLength (0) - 1; ++i) {
-//
-//			for (int j = 0; j <= image2.GetLength (1) - 2; ++j) {
-//
-//				//				if 0 create a cube 
-//				if (image2 [i,j] == 0  ) {
-//					GameObject xcube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-//					xcube.GetComponent<Renderer>().material.color = Color.cyan;
-//
-//					int start = j * scale; // start at col j 
-//					int length = xLen (image2,i,j) ; // get len in x direction(xwall) of given point(first 0 in x direction)
-//					int newLen = xLen (image2,i,j)+scale ;//length after scale increase
-//					int end;
-//					float midPoint;
-//					//if the wall is the size max length
-//					if (length == image2.GetLength (1) ) {
-//						print ("long wall ");
-////						float s = (float)(start+ scale)/2;
-//						int maxLen = (xWallSeg(image2)*scale) + newLen; 
-////						 end = newLen + scale - 1 + scale; // max end pos 
-//						end = maxLen;
-//						xcube.transform.localScale += new Vector3 (  maxLen ,hi,0);//newlen +
-//						midPoint= (float)(scale + end) / 2;//get mid point for instant. cube
-//						print ("end: " + end);
-//					} else {
-//						 end = newLen + start - 1; //end point of xwall
-//						xcube.transform.localScale += new Vector3 (newLen-1,hi,0);
-//						midPoint= (float)(start + end) / 2;//get mid point for instant. cube
-//					}
-//
-//					// get rid of remaining wall to avoid drawing cube for each 0 point
-//					for(int k =0; k < length ; k++){
-//						image2 [i, j + k] = 1;
-//					}
-//					//create cube at midpoint for x bc cube scales both ways, some for y, z = row(i)
-//					Instantiate(xcube,new Vector3(midPoint,hi/2,i) , Quaternion.identity);
-//					Destroy (xcube);
-//				} 
-//
-//
-//			}
-//		}
-//	}
+
 
 	//	returns gap size(continous 1's) from given postion
 	public int getXGapLen(int[,]image,int row, int col){
@@ -284,37 +200,6 @@ public class WallPoints : MonoBehaviour {
 
 
 
-//
-//	public int[,] scaleX(int[,] image, int scale){
-//		
-//			int [,]image2 =copyIMG (image);
-//		int rows = (image2.GetLength (0) - 1);
-//		int maxWallSegs = maxLineSegs (image);//max # of wall segments in line
-////		int maxWallPix = maxLinePixs(image);//max pix in line
-//
-//		int newCols = (image2.GetLength (1) - 1 + maxWallSegs * scale);//new number of cols 
-//		image2 = ResizeArray (image2,rows,newCols  );
-//		for (int i = 0; i <= image2.GetLength (0) - 1; ++i) {
-//		
-//			for (int j = image2.GetLength (1) - 1; j >= 0; j--) {
-//				if (image2 [i,j] == 0) {
-//					int wallStart = j;
-//					int len = xLenRev (image2,i,j);
-//					int wallSegs = xLineSegs (image2, i);
-//					int wallEnd = j - len - 1;
-//
-////					image [i] [];
-//					for(int k =0; k < len; k++){
-//						image2 [i, j - k] = 1;
-//					}
-//					image2 [i, j + wallSegs * scale ] = image2 [i, j];
-////					image2 [i, wallEnd];
-//
-//				}
-//			}
-//		}
-//		return image2;
-//	}
 
 
 
@@ -443,6 +328,7 @@ public class WallPoints : MonoBehaviour {
 		return max;
 	}
 
+	public Material brick;
 	//draws walls in x direction using a cube object per wall
 	public void drawX(int[,]image){
 		int hi = 12;
@@ -455,8 +341,11 @@ public class WallPoints : MonoBehaviour {
 //				if 0 create a cube 
 				if (image2 [i,j] == 0  ) {
 					GameObject xcube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-					xcube.GetComponent<Renderer>().material.color = Color.blue;
+//					xcube.GetComponent<Renderer>().material.color = Color.blue;
 //					GameObject xcube = GameObject.Find("bube");
+					Renderer rend = xcube.GetComponent<Renderer>();
+//					Material newMat = Resources.Load("Industrial_stone_Brick", typeof(Material)) as Material;
+					rend.material =brick;
 
 					int start = j; // start at col j
 					int length = xLen (image2,i,j); // get len in x direction(xwall) of given point(first 0 in x direction)
@@ -482,6 +371,46 @@ public class WallPoints : MonoBehaviour {
 		}
 	}
 
+	public void drawX2(int[,]image){
+		int hi = 12;
+		int [,]image2 =copyIMG (image);
+		for (int i = 0; i <=  image2.GetLength (0) - 1; ++i) {
+
+			for (int j = 0; j <= image2.GetLength (1) - 2; ++j) {
+
+				print ("drawing x");
+				//				if 0 create a cube 
+				if (image2 [i,j] == 0  ) {
+					GameObject xcube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+										xcube.GetComponent<Renderer>().material.color = Color.blue;
+					//					GameObject xcube = GameObject.Find("bube");
+//					Renderer rend = xcube.GetComponent<Renderer>();
+					//					Material newMat = Resources.Load("Industrial_stone_Brick", typeof(Material)) as Material;
+//					rend.material =brick;
+
+					int start = j; // start at col j
+					int length = xLen (image2,i,j); // get len in x direction(xwall) of given point(first 0 in x direction)
+					int end = length + start - 1; //end point of xwall
+					float midPoint = (float)(start + end) / 2;//get mid point for instant. cube
+
+
+
+					// x = length-1 (wall len -1 bc scale starts at 1)
+					xcube.transform.localScale += new Vector3 (length-1,hi,0);
+
+					// get rid of remaining wall to avoid drawing cube for each 0 point
+					for(int k =0; k < length; k++){
+						image2 [i, j + k] = 1;
+					}
+					//create cube at midpoint for x bc cube scales both ways, some for y, z = row(i)
+					Instantiate(xcube,new Vector3(midPoint + 20,hi/2,i +20) , Quaternion.identity);
+					Destroy (xcube);
+				} 
+
+
+			}
+		}
+	}
 
 	//draws walls in x direction using a cube object per wall
 	public void drawY(int[,]image){
@@ -635,6 +564,7 @@ public class WallPoints : MonoBehaviour {
 	}
 
 
+	//doube[,] to List<List<Double>>
 	public static List<List<Double>> intArrToList<Double>( Double[,] array)
 	{
 		var result = new List<List<Double>>();
@@ -672,27 +602,10 @@ public class WallPoints : MonoBehaviour {
 		return result;
 	}     
 
-	//		Double[][] to List of Lists
-//	public static List<List<Double>> doubleTwoDList(Double[,] image){
-//		List<List<Double>> result = new List<List<double>>();
-//		List<Double> sublist = new List<Double>();
-//		result = image..ToList();
-////		foreach(Double[] array in image){
-////			result.AddRange( array.ToList() );
-////		}
-////		for (int i = 0; i < result.Count (); i++) {
-////			
-//////			h = image.Cast<double> ().ToList ();
-////			List<double> lst = image.Cast<double> ().ToList ();
-////			result.Add(lst);
-////			print (" i " + i + " res " + result.ElementAt (i).ElementAt(i));
-////		}
-//
-//
-//	
-//		return result;
-//	}
 
+
+
+	//gets the xlen of in a list of list<double>
 	public static int xDoubleLen(List<List<Double>> imgList,int row,int col){
 		int j =col;
 		int count = 0;
@@ -715,10 +628,10 @@ public class WallPoints : MonoBehaviour {
 			Double [,]  image2 = intArrToDouble(image);
 		List<List<Double>> imageList = intArrToList(image2);
 			int maxWallSegs = maxLineSegs(image);
-		String[,] scaledIMGString = new String[image.GetLength(0),image.GetLength(1) + scale*maxWallSegs];
+//		String[,] scaledIMGString = new String[image.GetLength(0),image.GetLength(1) + scale*maxWallSegs];
 		int[,] scaledIMG = new int[image.GetLength(0),image.GetLength(1) + scale*maxWallSegs];
 			//			ArrayList scaledIMGListimage = new ArrayList(image[0].length + scale*maxWallSegs);
-			int arrSize = 0;
+
 	
 			for(int i = 0; i < imageList.Count();i++){
 	
@@ -787,7 +700,7 @@ public class WallPoints : MonoBehaviour {
 		}
 
 
-
+	// gets the line segments in given column
 	public static int yLineSegs(int [,] image, int col){
 
 		int iswall = 0;
@@ -818,7 +731,7 @@ public class WallPoints : MonoBehaviour {
 	}
 
 
-
+	//gets max y line segments of image
 	public static int maxLineSegsY(int [,]image){
 
 		//		int iswall = 0;
@@ -966,9 +879,49 @@ public class WallPoints : MonoBehaviour {
 
 
 
+	//turns a flattened Color array into a 2D Color Array
+	public Color[,] singleArrayToDouble( Color[] flattenedPixelArray,int width, int height){
 
+		Color[,] pixels = new Color[width, height];
 
+		for (int y = 0; y < height; y++) {
 
+			for (int x = 0; x < width; x++) {
+
+				pixels [x, y] = flattenedPixelArray [x * width + y];
+
+			}
+		}
+
+		return pixels;
+
+	}
+
+	//2d Colors Array to a Binary int 2d array
+	public int[,] ColorArrayToBinaryIntArray( Color[,] pixels,int width, int height){
+
+		int[,] binaryPixels = new int[width,height];
+
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				if (pixels [x, y] == Color.white) {
+					binaryPixels [x,y] = 1;
+				} else {
+					binaryPixels [x, y] = 0;
+				}
+			}
+		}
+
+		return binaryPixels;
+
+	}
+
+	//		public Texture2D theTexture;
+	//		public int[,] binaryPixels;
+	//		private Color [,] pixels;
+	//		private Color [] pixelArray;
+	//		private int width;
+	//		private int height;
 
 //	public GameObject bube ;
 	// Use this for initialization
@@ -1000,261 +953,188 @@ public class WallPoints : MonoBehaviour {
 		//		change the scale of the cube + z(height)
 //		GameObject bube = GameObject.Find("bube");
 //		bube.transform.localScale += new Vector3 (0, (float)-.8,0);
-		Texture2D b = LoadPNG("/Users/angelrodriguez/Downloads/House_2.png");
-		
-			int[,] image1 = {	
-				{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-				{ 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-				{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-				{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-				{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-				{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-				{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-				{ 1, 1, 1, 1, 0, 0, 0 ,0 ,0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-	
-			} ;
+		Texture2D b = LoadPNG("/Users/angelrodriguez/Desktop/house.png");
+		int width = b.width;
+		int height = b.height;
 
+		//get the pixels of the Texture/floorplan
+		Color []pixelArray = b.GetPixels();
 
-		int[,] image2 = {	
-			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-			{ 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1},
-			{ 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1},
-			{ 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1},
-			{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1},
-			{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1},
-			{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0},
-			{ 1, 1, 1, 1, 0, 0, 0 ,0 ,0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-			{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-			{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-			{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-			{ 1, 1 ,1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-			{ 1, 1 ,1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-			{ 1, 1 ,1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-			{ 1, 1 ,1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-			{ 1, 1 ,1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1},
-			{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+		//change to 2d array
+		Color [,]pixels = singleArrayToDouble (pixelArray, width,height);
 
-		} ;
+		//change into integer 2d array
+		int[,]binaryPixels = ColorArrayToBinaryIntArray (pixels,width,height);
 
-		int[,] image3 = {	
-			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0},
-			{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0},
-			{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0},
-			{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0},
-			{ 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0},
-			{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0},
-			{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0},
-			{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-			{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-			{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-			{ 1, 1, 1, 0, 0, 0, 0 ,0 ,0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-			{ 1, 1 ,0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-			{ 1, 1 ,0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1},
-			{ 1, 1 ,0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
-			{ 1, 1 ,1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1},
-			{ 1, 1 ,1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1},
-			{ 1, 1 ,1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1},
-			{ 1, 1 ,1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-			{ 1, 1 ,1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0},
-			{ 1, 1 ,1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0},
-
-		} ;
-
-				int[,] image4 = {	
-					{ 0, 0 ,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-					{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0},
-					{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0},
-					{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0},
-					{ 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0},
-					{ 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0},
-					{ 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0},
-					{ 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-					{ 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-					{ 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-					{ 0, 1, 1, 0, 0, 0, 0 ,0 ,0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-					{ 0, 1 ,0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-					{ 0, 1 ,0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0},
-					{ 0, 1 ,0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0},
-					{ 0, 1 ,1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0},
-					{ 0, 0 ,0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0},
-					{ 0, 1 ,1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0},
-					{ 0, 1 ,0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0},
-					{ 0, 1 ,1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0},
-					{ 0, 0 ,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		
-				} ;
-
-		int[,] image5 = {	
-			{ 0, 0 ,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-			{ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-			{ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-			{ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-			{ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-			{ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-			{ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-			{ 0, 1, 1, 1, 1, 1, 1 , 1, 1, 1,1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-			{ 0, 0 ,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-
-		} ;
-
-		int[,] imagey = {	
-			{ 0, 0 ,1, 0, 1, 1},
-			{ 0, 0 ,1, 0, 1, 1},
-			{ 0, 0 ,1, 0, 1, 1},
-			{ 0, 0 ,1, 0, 1, 1},
-
-		} ;
-
-		int[,] imagex = {	
-			{ 0, 0 ,0, 0, 0, 0},
-			{ 0, 1 ,1, 0, 0, 1},
-			{ 1, 1 ,1, 1, 1, 1},
-			{ 0, 0 ,1, 0, 0, 0},
-
-		} ;
-
-//		print (getXGapLen (imagex, 3, 2));
-//		int row = imagex.GetLength(0)-1;
-//		int newCol = imagex.GetLength(1) + 3;
-//		int[,] newArr = ResizeArray (imagex, row, newCol);
-//		print(newArr [0,6]);
-
-//		int[,] sIMG= scaleY (imagex, 3); 
-
-//		for (int i = 0; i < imagex.GetLength (0); i++) {
-//			for (int j = 0; j < imagex.GetLength (1); j++) {
-//			print (imagex[0,j]+", ");
+//			int[,] image1 = {	
+//				{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//				{ 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//				{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//				{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//				{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//				{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//				{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//				{ 1, 1, 1, 1, 0, 0, 0 ,0 ,0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//				{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//	
+//			} ;
 //
+//
+//		int[,] image2 = {	
+//			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//			{ 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1},
+//			{ 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1},
+//			{ 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1},
+//			{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1},
+//			{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1},
+//			{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0},
+//			{ 1, 1, 1, 1, 0, 0, 0 ,0 ,0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//			{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//			{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//			{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//			{ 1, 1 ,1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//			{ 1, 1 ,1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//			{ 1, 1 ,1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//			{ 1, 1 ,1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//			{ 1, 1 ,1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1},
+//			{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//
+//		} ;
+//
+//		int[,] image3 = {	
+//			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0},
+//			{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0},
+//			{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0},
+//			{ 1, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0},
+//			{ 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0},
+//			{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0},
+//			{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0},
+//			{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+//			{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+//			{ 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+//			{ 1, 1, 1, 0, 0, 0, 0 ,0 ,0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+//			{ 1, 1 ,0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+//			{ 1, 1 ,0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1},
+//			{ 1, 1 ,0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
+//			{ 1, 1 ,1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1},
+//			{ 1, 1 ,1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1},
+//			{ 1, 1 ,1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1},
+//			{ 1, 1 ,1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+//			{ 1, 1 ,1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0},
+//			{ 1, 1 ,1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0},
+//
+//		} ;
+//
+//				int[,] image4 = {	
+//					{ 0, 0 ,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+//					{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0},
+//					{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0},
+//					{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0},
+//					{ 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0},
+//					{ 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0},
+//					{ 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0},
+//					{ 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+//					{ 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+//					{ 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+//					{ 0, 1, 1, 0, 0, 0, 0 ,0 ,0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+//					{ 0, 1 ,0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+//					{ 0, 1 ,0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0},
+//					{ 0, 1 ,0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0},
+//					{ 0, 1 ,1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0},
+//					{ 0, 0 ,0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0},
+//					{ 0, 1 ,1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0},
+//					{ 0, 1 ,0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0},
+//					{ 0, 1 ,1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0},
+//					{ 0, 0 ,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+//		
+//				} ;
+//
+//		int[,] image5 = {	
+//			{ 0, 0 ,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+//			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+//			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+//			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+//			{ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+//			{ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+//			{ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+//			{ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+//			{ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+//			{ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+//			{ 0, 1, 1, 1, 1, 1, 1 , 1, 1, 1,1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+//			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+//			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+//			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+//			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+//			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+//			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+//			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+//			{ 0, 1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+//			{ 0, 0 ,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+//
+//		} ;
+//
+//		int[,] imagey = {	
+//			{ 0, 0 ,1, 0, 1, 1},
+//			{ 0, 0 ,1, 0, 1, 1},
+//			{ 0, 0 ,1, 0, 1, 1},
+//			{ 0, 0 ,1, 0, 1, 1},
+//
+//		} ;
+//
+//		int[,] imagex = {	
+//			{ 0, 0 ,0, 0, 0, 0},
+//			{ 0, 1 ,1, 0, 0, 1},
+//			{ 1, 1 ,1, 1, 1, 1},
+//			{ 0, 0 ,1, 0, 0, 0},
+//
+//		} ;
+//
+//
+//
+//
+//		int[,] imagex2 = {	
+//			{ 0, 0 ,0, 0, 0, 0},
+//			{ 0, 1 ,1, 0, 0, 1},
+//			{ 1, 1 ,1, 1, 1, 1},
+//			{ 0, 0 ,1, 0, 0, 0},
+//
+//		} ;
+//
+//		int[,] xwall = {
+//			{ 1,0,0,0,0,1,0,1,1},	
+//			{ 0,1,0,1,0,1,0,1,0},
+//		} ;
+//
+//		for (int i = 0; i < binaryPixels.GetLength (0); i++) {
+//			for (int j = 0; j < binaryPixels.GetLength (1); j++) {
+//				print (binaryPixels.GetLength (0));
+//				print (binaryPixels.GetLength (1));
+//				print(binaryPixels [i, j]);
 //			}
 //		}
-//		drawX (sIMG);
-//		print(xLenRev(imagex,3,5));
+		drawX (binaryPixels);
+		drawXF(binaryPixels);
+//		drawX2(imagex);
+//		drawX (scaleX (scaleY (imagex, 8),8));
 
-
-		int[,] imagex2 = {	
-			{ 0, 0 ,0, 0, 0, 0},
-			{ 0, 1 ,1, 0, 0, 1},
-			{ 1, 1 ,1, 1, 1, 1},
-			{ 0, 0 ,1, 0, 0, 0},
-
-		} ;
-
-		int[,] xwall = {
-			{ 1,0,0,0,0,1,0,1,1},	
-			{ 0,1,0,1,0,1,0,1,0},
-		} ;
-
-
-//		drawX ();
-//		drawX(imagex);
-		drawX (scaleX (scaleY (imagex, 2),2));
-//		print (maxLinePixs(xwall));
-//		double[,] g = intArrToDouble(xwall);
-//		List<List<Double>> k = intArrToList (g);
-//		for (int s = 0; s < g.GetLength(0); s++) {
-//			for (int t = 0; t < g.GetLength(1); t++) {
-//				print (g[s,t]);
-//			}
-//		}
-//		//		;
-//		print ("g " +g);
-//		for (int s = 0; s < g.GetLength(0); s++) {
-//			for (int t = 0; t < g.GetLength(1); t++) {
-//				print (k.ElementAt (s).ElementAt (t));
-//			}
-//		}
+//		drawXF (scaleX (scaleY (imagex, 8),8));
 
 
 
-
-
-//		;
-//		doubleTwoDList (g);
-
-
-//		print(ToList (g));
-//		("" + intArrToList (g));
-//		print();
-//		 Rect sourceRect;
-//		Texture2D h = LoadPNG("/Users/angelrodriguez/Desktop/bp1.jpg");
-
-//		int width = Mathf.FloorToInt(h.width);
-//		int height = Mathf.FloorToInt(h.height);
-//
-//		Color[] pix = h.GetPixels(0, 0, width, height);
-//		var cl = pix.ToList();
-//
-//		printList1 (cl);
-//		h.SetPixels(pix);
-//		h.Apply();
-//		GetComponent<Renderer>().material.mainTexture = h;
-
-
-//			List<Vector3> points = getWallPoints(imagex);
-
-
-//		print ("len " + xLen (imagex, 3, 0));
-
-//			   printList(points); //for testing
-
-//		draw a Cube for each point
-//				foreach(Vector3 point in points)
-//				{
-//			Instantiate(bube, point, Quaternion.identity);
-//				}
-
-//		xwall [0, 2];
-//		int len = xLen (imagex, 0,0);
-//		print ("len " + len);
-//
-//		print ("max len " + imagex.GetLength (1));
-//		print(xLineSegs(xwall,1));
-
-
-//		drawXF(imagex);
-//
-//		drawX (xIMG(imagex));
-
-
-
-
-
-
-
-
-
-//		get rid of the original cube drawn
-//		bube.SetActive(false); //only hides the cube
-//			Destroy(bube);
-//		Destroy (xcube);
-
-//		bube.transform.Rotate (0,0,-200);
 	}
 
 
